@@ -1,13 +1,13 @@
 <p align="center">
-  <a href="#-Introdução">Introdução</a>
+  <a href="#Introdução">Introdução</a>
   &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-Tecnologias-e-Ferramentas">Tecnologias</a>
+  <a href="#Tecnologias-e-Ferramentas">Tecnologias</a>
   &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-Estrutura">Estrutura</a>
+  <a href="#Estrutura">Estrutura</a>
   &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-Instalação/Execução">Instalação</a>
+  <a href="#Instalação">Instalação</a>
   &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-Comentários-Adicionais">Comentários Adicionais</a>
+  <a href="#Comentários-Adicionais">Comentários Adicionais</a>
   &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
 </p>
 
@@ -68,7 +68,7 @@ dtos (Data transfer objects) -> As interfaces que definem a estrutura dos dados 
     A pasta infra já teve sua explicação acima.
 ```
 
-# Instalação/Execução
+# Instalação
 
 1 - Clone o projeto;
 
