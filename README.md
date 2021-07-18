@@ -7,6 +7,8 @@
   &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#Instalação">Instalação</a>
   &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#Endpoints">Endpoints</a>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#Comentários-Adicionais">Comentários Adicionais</a>
   &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
 </p>
@@ -25,6 +27,8 @@ Para padronizar o código e manter a qualidade, foram utilizados, em conjunto: [
 
 Além disso, outras bibliotecas foram utilizadas para auxiliar na implementação das funcionalidades, sendo elas:
 
+[Babel](https://babeljs.io/): Utilizado para fazer a build do código e também cuidar da compatibilidade do código com os testes, convertendo os decorators, por exemplo.
+
 [Class Transformer](https://github.com/typestack/class-transformer): Utilizados alguns *decorators* para não trazer informações como data de criação no corpo da resposta.
 
 [Tsyringe](https://www.npmjs.com/package/tsyringe?activeTab=readme): Biblioteca que facilita a injeção de dependências.
@@ -38,6 +42,8 @@ Além disso, outras bibliotecas foram utilizadas para auxiliar na implementaçã
 *Pasta raíz:* Configurações das ferramentas e bibliotecas.
 
 ```
+assets -> Contém as imagens que serão usadas nesse readme.
+coverage -> Pasta que foram gerados os relatórios dos testes.
 src -> A pasta principal da aplicação, contendo:
 dtos (Data transfer objects) -> As interfaces que definem a estrutura dos dados que serão passados para os services;
 
@@ -52,9 +58,11 @@ dtos (Data transfer objects) -> As interfaces que definem a estrutura dos dados 
 
     repositories -> Contém as interfaces que definem a estrutura que
     os repositórios deverão seguir.
+    repositories/fakes -> O fake do repositório que será utilizado nos testes.
 
     services -> Contém os serviços que são responsáveis por chamar
     os repositórios e pelas regras de negócio da requisição.
+    services/__tests__ -> Testes unitários realizados com o Jest.
 
     types -> Tipagem de alguns modelos de dados.
 
@@ -78,6 +86,33 @@ dtos (Data transfer objects) -> As interfaces que definem a estrutura dos dados 
 
 4 - É possivel executar ```yarn test``` para executar os testes ou ```yarn test:watch``` para executar ficar observando os testes.
 
+# Endpoints
+
+```
+[POST] http://localhost:3333/opinion -> Enviar os dados em JSON para analisar o tweet, exemplo:
+{
+  "author": "michael_saylor",
+  "text": "Beginning is easy, continuing is hard. -Japanese proverb on #Bitcoin",
+  "link": "https://twitter.com/michael_saylor/status/1406936342664290307"
+}
+```
+![Requisição GET na rota localhost:3333/analyses](/assets/send-tweet.png)
+
+```
+[GET] http://localhost:3333/opinion/autor -> Enviar o nome do autor no final do endpoint, exemplo: http://localhost:3333/opinion/michael_saylor.
+
+Exemplo de resposta:
+```
+![Requisição GET na rota localhost:3333/analyses](/assets/get-opinion.png)
+
 # Comentários Adicionais
 
 1 - Usei o ```synchronize: true``` no banco para agilizar e focar na parte mais importante da aplicação.
+
+2 - A maior parte dos conceitos aplicados nesse teste, aprendi pesquisando para fazer os projetos para trabalho/estudo e assistindo os cursos:
+
+[GoStack - Rocketseat](https://rocketseat.com.br/)
+
+[Ignite - Rocketseat](https://rocketseat.com.br/)
+
+[React Avançado - Willian Justes / Guilherme Louro](https://reactavancado.com.br/)

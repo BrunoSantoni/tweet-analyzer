@@ -3,6 +3,6 @@ import { Router } from 'express';
 
 const routes = Router();
 
-routes.use('/', tweetsRouter);
+routes.use('/opinion', tweetsRouter);
 
 export default routes;

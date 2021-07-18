@@ -12,7 +12,7 @@ class GetUserAverage {
 
   public async execute(author: string): Promise<IOpinion> {
     if (!author) {
-      throw new ServerError('Author not found');
+      throw new ServerError('Author not found or not provided');
     }
 
     const userOpinion = await this.tweetsRepository.listUserOpinion(author);

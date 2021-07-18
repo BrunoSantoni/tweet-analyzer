@@ -16,6 +16,14 @@ class SendTweet {
       throw new ServerError('All fields must be filled');
     }
 
+    if (
+      typeof author !== 'string' ||
+      typeof text !== 'string' ||
+      typeof link !== 'string'
+    ) {
+      throw new ServerError('All fields must be type string');
+    }
+
     const tweet = await this.tweetsRepository.send({
       author,
       text,

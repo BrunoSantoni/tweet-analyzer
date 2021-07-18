@@ -1,29 +1,21 @@
+import Tweet from '@modules/tweets/infra/typeorm/entities/Tweet';
 import ISendTweetDto from '@modules/tweets/dtos/ISendTweetDto';
-import ITweetsRepository from '@modules/tweets/repositories/ITweetsRepository';
-import { getRepository, Repository } from 'typeorm';
-
-import ServerError from '@shared/errors/ServerError';
-
 import vader from 'vader-sentiment';
-
 import { v4 } from 'uuid';
 import IOpinion from '@modules/tweets/types/IOpinion';
-import Tweet from '../entities/Tweet';
+import ServerError from '@shared/errors/ServerError';
+import ITweetsRepository from '../ITweetsRepository';
 
-class TweetsRepository implements ITweetsRepository {
-  private ormRepository: Repository<Tweet>;
-
-  constructor() {
-    this.ormRepository = getRepository(Tweet);
-  }
+class FakeTweetsRepository implements ITweetsRepository {
+  private tweets: Tweet[] = [];
 
   public async listUserOpinion(author: string): Promise<IOpinion> {
-    const userTweets = await this.ormRepository.find({ where: { author } });
+    const userTweets = this.tweets.filter(tweet => tweet.author === author);
 
     let total = 0;
 
     if (!userTweets || userTweets.length <= 0) {
-      throw new ServerError('No tweets found for this user.', 404);
+      throw new ServerError('No tweets found for this user.');
     }
 
     userTweets.forEach(tweet => {
@@ -33,7 +25,6 @@ class TweetsRepository implements ITweetsRepository {
     });
 
     const average = total / userTweets.length;
-
     const date = new Date();
     const formattedDate = `${date.getFullYear()}/${
       date.getMonth() + 1
@@ -59,18 +50,24 @@ class TweetsRepository implements ITweetsRepository {
   public async send({ author, link, text }: ISendTweetDto): Promise<Tweet> {
     const intensity = vader.SentimentIntensityAnalyzer.polarity_scores(text);
 
-    const tweet = this.ormRepository.create({
+    const date = new Date();
+
+    const tweet = new Tweet();
+
+    Object.assign(tweet, {
       id: v4(),
       author,
       link,
       text,
       intensity: intensity.compound,
+      createdAt: date,
+      updatedAt: date,
     });
 
-    await this.ormRepository.save(tweet);
+    this.tweets.push(tweet);
 
     return tweet;
   }
 }
 
-export default TweetsRepository;
+export default FakeTweetsRepository;
