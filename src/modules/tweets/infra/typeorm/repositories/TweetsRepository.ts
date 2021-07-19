@@ -20,17 +20,15 @@ class TweetsRepository implements ITweetsRepository {
   public async listUserOpinion(author: string): Promise<IOpinion> {
     const userTweets = await this.ormRepository.find({ where: { author } });
 
-    let total = 0;
-
     if (!userTweets || userTweets.length <= 0) {
       throw new ServerError('No tweets found for this user.', 404);
     }
 
-    userTweets.forEach(tweet => {
-      if (tweet.intensity) {
-        total += tweet.intensity;
-      }
-    });
+    const total = userTweets
+      .map(tweet => tweet.intensity)
+      .reduce((acc, sum) => {
+        return acc + sum;
+      }, 0);
 
     const average = total / userTweets.length;
 

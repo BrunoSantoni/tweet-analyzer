@@ -12,17 +12,15 @@ class FakeTweetsRepository implements ITweetsRepository {
   public async listUserOpinion(author: string): Promise<IOpinion> {
     const userTweets = this.tweets.filter(tweet => tweet.author === author);
 
-    let total = 0;
-
     if (!userTweets || userTweets.length <= 0) {
       throw new ServerError('No tweets found for this user.');
     }
 
-    userTweets.forEach(tweet => {
-      if (tweet.intensity) {
-        total += tweet.intensity;
-      }
-    });
+    const total = userTweets
+      .map(tweet => tweet.intensity)
+      .reduce((acc, sum) => {
+        return acc + sum;
+      }, 0);
 
     const average = total / userTweets.length;
     const date = new Date();
